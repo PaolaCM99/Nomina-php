@@ -20,7 +20,7 @@
     </nav>
     <div class="container">
         <h1>Nomina</h1>
-        <h2 class="lead">Genera un archivo PDF con los datos de nomina de los empleados</h2>
+        <h2 class="lead">Ingresa los datos de nomina de los empleados</h2>
 
         <div class="row">
             <div id="content" class="col-lg-12">
@@ -58,7 +58,8 @@
                                 <option>Auxiliar del mayordomo </option>
                                 <option>Servivios generales </option>
                                 <option>Coordinador administrativa</option>
-                            </select></td>
+                            </select>
+                            </td>
                             <td><input class='form-control' type='number' name='num[]'></td>
                             <td><input class='form-control' type='number' name='suel[]'></td>
                             <td><input class='form-control' type='number' name='diaslab[]'></td>
@@ -66,7 +67,7 @@
                             }
                             ?>
                             <tr bgcolor="#FF9933" align="center">
-                                <td colspan="3"><input class="btn btn-primary" type='submit' value='Enviar'>
+                                <td colspan="7"><input class="btn btn-primary" type='submit' value='Enviar'>
                                     <input class="btn btn-info" type='reset' value='Reset'>
                                 </td>
                             </tr>
