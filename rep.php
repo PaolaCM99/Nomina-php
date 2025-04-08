@@ -7,7 +7,6 @@
     <title>Nomina 2</title>
     <link rel="shortcut icon" href="https://www.jose-aguilar.com/blog/wp-content/themes/jaconsulting/favicon.ico" />
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
@@ -19,12 +18,11 @@
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
         <h3 class="text-light">Nomina</h3>
     </nav>
-    <div class="container">
 
-    <h1>Nomina</h1>
-    <h2 class="lead">Genera un archivo PDF con los datos de nomina de los empleados</h2>
+    <div class="container" style="margin-top: 80px;">
+        <h1>Nomina</h1>
+        <h2 class="lead">Genera un archivo PDF con los datos de nomina de los empleados</h2>
 
-       
         <div class="row">
             <div id="content" class="col-lg-12">
                 <?php
@@ -34,78 +32,141 @@
                 $num = $_REQUEST['num'];
                 $suel = $_REQUEST['suel'];
                 $diaslab = $_REQUEST['diaslab'];
+                $vacaciones = isset($_GET['vacaciones']) ? $_GET['vacaciones'] : [];
+                $diasvac = isset($_GET['diasvac']) ? $_GET['diasvac'] : [];
+                $incap = isset($_GET['incap']) ? $_GET['incap'] : [];// tengo dudas con este 
+                $recnoct = isset($_REQUEST['recnoct']) ? $_REQUEST['recnoct'] : []; 
+                $horasRec = isset($_REQUEST['horasrec']) ? $_REQUEST['horasrec'] : [];
+                $dominicales = isset($_REQUEST['dominicales']) ? $_REQUEST['dominicales'] : [];
+
+
+
+                
 
                 $tam = count($nom);
                 ?>
+
                 <form action="./pdf.php" method='post'>
                     <table class="table table-success table-striped">
                         <thead>
                             <tr bgcolor="#CCCCCC">
-                                <td>Nombre</td>
-                                <td>Centro de costos</td>
-                                <td>Cargo </td>
-                                <td>Número de identificación </td>
-                                <td>Sueldo</td>
-                                <td>Dias laborados </td>
-                                <td>Salario según dias laborados </td>
+                                <th>Nombre</th>
+                                <th>Centro de costos</th>
+                                <th>Cargo</th>
+                                <th>Número de identificación</th>
+                                <th>Sueldo</th>
+                                <th>Días laborados</th>
+                                <th>Salario según días laborados</th>
+                                <th>¿Vacaciones?</th>
+                                <th>Días de vacaciones</th>
+                                <th>Salario Proporcional</th>
+                                <th>Subsidio de transporte</th>
+                                <th>incapacidades arl </th>
+                                <th>Recargo Nocturno</th>
+                                <th>Dominicales</th>
+                                <th>Aux. Alimentación No Prestacional</th>
+
+
+
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            for ($i = 0; $i < 3; $i++) {
-                                $spdl = ((int)$suel[$i] / 30) * (int)$num[$i];
+                            $subsidio_transporte_mensual = 200000;
+
+                            for ($i = 0; $i < $tam; $i++) {
+                                $spdl = ((float)$suel[$i] / 30) * (float)$diaslab[$i];
+                                
+
+                               
+                                $esta_de_vacaciones = (!empty($vacaciones) && isset($vacaciones[$i]) && $vacaciones[$i] === 'si');
+                                $dias_vacaciones = (isset($diasvac[$i]) && is_numeric($diasvac[$i])) ? (float)$diasvac[$i] : 0;
+
+                                $vacdis = $esta_de_vacaciones
+                                    ? number_format(((float)$suel[$i] / 30) * $dias_vacaciones, 0, '', '')
+                                    : number_format(0, 3, '', '');
+
+                                $subsidio = 0;
+                                if ((float)$suel[$i] <= 2600000) {
+                                    $subsidio = number_format(($subsidio_transporte_mensual / 30) * (int)$diaslab[$i], 0, '', '');
+                                }
+
+                                $arl_incapacidades = 0;
+                                if (isset($_REQUEST['incap']) && is_array($_REQUEST['incap'])) {
+                              $incap_valor = isset($_REQUEST['incap'][$i]) ? (float)$_REQUEST['incap'][$i] : 0;
+                              $arl_incapacidades = ((float)$suel[$i] / 30) * $incap_valor;
+                               }
+                               $valor_hora = ((float)$suel[$i] / 30) / 8;
+                              $horas_recargo = isset($horasRec[$i]) ? (float)$horasRec[$i] : 0;
+                             $valor_recargo_nocturno = $valor_hora * $horas_recargo * 1.35;
+                              $domingos_trabajados = isset($dominicales[$i]) ? (int)$dominicales[$i] : 0;
+                             $valor_dominical = ((float)$suel[$i] / 30)* 1.75 * $domingos_trabajados;
+                             $aux_alimentacion_no_prestacional = 0;
+                             if ((float)$suel[$i]  >= 2600000) { 
+                            $aux_alimentacion_no_prestacional = 10000 * (int)$diaslab[$i];
+}
+
+
+
                                 echo "<tr bgcolor='#FF9933'>
-                                <td><input class='form-control' type='text' name='nomb[]' value=' $nom[$i]' readonly></td>
-                                <td>
-                                <select class='form-control'name='centro[]'>
-                                    <option>Administración</option>
-                                    <option>Las Delicias - Villavicencio</option>
-                                    <option>Mangos y Naranjos - Tausa</option>
-                                </select></td>
-                                <td>
-                                <select class='form-control'name='car[]'>
-                                    <option>Gerente</option>
-                                    <option>Subgerente</option>
-                                    <option>Coordinador Agro </option>
-                                    <option>Asistente varios </option>
-                                    <option>Contador</option>
-                                    <option>Mayordomo</option>
-                                    <option>Auxiliar del mayordomo </option>
-                                    <option>Servivios generales </option>
-                                    <option>Coordinador administrativa</option>
-                                </select></td>
-                                <td><input class='form-control' type='number' name='num[]' value='$num[$i]'></td>
-                                <td><input class='form-control' type='number' name='suel[]' value='$suel[$i]'></td>
-                                <td><input class='form-control' type='number' name='diaslab[]' value='$diaslab[$i]'></td>
-                                <td><input class='form-control' type='number' name='spdl[]' value='$spdl' readonly></td>
-                                </tr>";
+                                    <td><input class='form-control' type='text' name='nomb[]' value='{$nom[$i]}' readonly></td>
+                                    <td>
+                                        <select class='form-control' name='centro[]'>
+                                            <option" . ($centro[$i] == 'Administración' ? " selected" : "") . ">Administración</option>
+                                            <option" . ($centro[$i] == 'Las Delicias - Villavicencio' ? " selected" : "") . ">Las Delicias - Villavicencio</option>
+                                            <option" . ($centro[$i] == 'Mangos y Naranjos - Tausa' ? " selected" : "") . ">Mangos y Naranjos - Tausa</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class='form-control' name='car[]'>
+                                            <option" . ($car[$i] == 'Gerente' ? " selected" : "") . ">Gerente</option>
+                                            <option" . ($car[$i] == 'Subgerente' ? " selected" : "") . ">Subgerente</option>
+                                            <option" . ($car[$i] == 'Coordinador Agro' ? " selected" : "") . ">Coordinador Agro</option>
+                                            <option" . ($car[$i] == 'Asistente varios' ? " selected" : "") . ">Asistente varios</option>
+                                            <option" . ($car[$i] == 'Contador' ? " selected" : "") . ">Contador</option>
+                                            <option" . ($car[$i] == 'Mayordomo' ? " selected" : "") . ">Mayordomo</option>
+                                            <option" . ($car[$i] == 'Auxiliar del mayordomo' ? " selected" : "") . ">Auxiliar del mayordomo</option>
+                                            <option" . ($car[$i] == 'Servivios generales' ? " selected" : "") . ">Servivios generales</option>
+                                            <option" . ($car[$i] == 'Coordinador administrativa' ? " selected" : "") . ">Coordinador administrativa</option>
+                                        </select>
+                                    </td>
+                                    <td><input class='form-control' type='number' name='num[]' value='{$num[$i]}' readonly></td>
+                                    <td><input class='form-control' type='number' name='suel[]' value='{$suel[$i]}' readonly></td>
+                                    <td><input class='form-control' type='number' name='diaslab[]' value='{$diaslab[$i]}' readonly></td>
+                                    <td><input class='form-control' type='number' name='spdl[]' value='" . number_format($spdl, 0, '', '') . "' readonly></td>
+                                    <td><input class='form-control' name='vacaciones[]' value='" . ($esta_de_vacaciones ? 'si' : 'no') . "' readonly></td>
+                                    <td><input class='form-control' name='diasvac[]' value='{$dias_vacaciones}' readonly></td>
+                                    <td><input class='form-control' name='salvac[]' value='{$vacdis}' readonly></td>
+                                    <td><input class='form-control' name='subsidio[]' value='" . $subsidio . "' readonly></td>
+                                    <td><input class='form-control' name='incaparl[]' value='" . number_format($arl_incapacidades, 0, '', '') . "' readonly></td>
+                                    <td> <input class='form-control' name='recnoct[]' value='" . number_format($valor_recargo_nocturno, 2) . "' readonly></td>
+                                    <td><input class='form-control' type='text' name='dominicales[]' value='" . number_format($valor_dominical, 2) . "' readonly></td>
+
+                                    </tr>";
                             }
                             ?>
                             <tr bgcolor="#FF9933" align="center">
-                                <td colspan="3"><input class="btn btn-primary" type='submit' value='Generar PDF'>
+                                <td colspan="11">
+                                    <input class="btn btn-primary" type='submit' value='Generar PDF'>
                                     <input class="btn btn-info" type='reset' value='Reset'>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
-
-                <br />
-                <!--<a class="btn btn-primary" href="pdf.php"><i class="fa fa-download"></i> Descargar archivo PDF</a>
--->
             </div>
-        </div>      
+        </div>
     </div>
-    <footer class="footer bg-dark">
-    <div class="container"> 
-            <p>Programación web - 2025</p>
-            <span>Realizado por:</span>
-            <br>
+
+    <footer class="footer bg-dark text-light py-3 mt-4">
+        <div class="container">
+            <p class="mb-1">Programación web - 2025</p>
+            <p>Realizado por:</p>
             <ul>
                 <li>Juliana</li>
                 <li>Paola Castro</li>
             </ul>
-        </div> 
+        </div>
     </footer>
 </body>
 

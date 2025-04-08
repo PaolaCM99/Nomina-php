@@ -12,6 +12,56 @@
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function toggleVacaciones(index) {
+            const radios = document.getElementsByName(`vacaciones[${index}]`);
+            const diasInput = document.getElementById(`diasVacaciones${index}`);
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (radio.value === 'si' && radio.checked) {
+                        diasInput.style.display = 'block';
+                    } else if (radio.value === 'no' && radio.checked) {
+                        diasInput.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        window.onload = () => {
+            for (let i = 0; i < 3; i++) {
+                toggleVacaciones(i);
+            }
+        }
+
+    function toggleRecargo(index) {
+        const radios = document.getElementsByName(`recnoct[${index}]`);
+        const horasInput = document.getElementById(`horasRecargo${index}`);
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                horasInput.style.display = (radio.value === 'si' && radio.checked) ? 'block' : 'none';
+            });
+        });
+    }
+    
+    function toggleDominical(index) {
+        const radios = document.getElementsByName(`dominical[${index}]`);
+        const cantidadInput = document.getElementById(`cantDominical${index}`);
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                cantidadInput.style.display = (radio.value === 'si' && radio.checked) ? 'block' : 'none';
+            });
+        });
+    }
+
+    window.onload = () => {
+        for (let i = 0; i < 3; i++) {
+            toggleVacaciones(i);
+            toggleRecargo(i);
+            toggleDominical(i);
+        }
+    }
+</script>
+
 </head>
 
 <body>
@@ -34,6 +84,16 @@
                                 <td>Número de identificación </td>
                                 <td>Sueldo</td>
                                 <td>Dias laborados </td>
+                                <td>¿Vacaciones?</td>
+                                <td>Días de vacaciones</td>
+                                <td>Número de incapacidades ARL</td>
+                                <td>¿Recargo nocturno ?</td>
+                                <td>Horas </td>
+                                <td>¿Dominicales  ?</td>
+                                <td>Dias </td>
+                              
+                                
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -62,6 +122,34 @@
                             <td><input class='form-control' type='number' name='num[]'></td>
                             <td><input class='form-control' type='number' name='suel[]'></td>
                             <td><input class='form-control' type='number' name='diaslab[]'></td>
+                             <td>
+                                    <input type='radio' name='vacaciones[$i]' value='si'> Sí<br>
+                                    <input type='radio' name='vacaciones[$i]' value='no'> No
+                                </td>
+                                <td>
+                                    <input class='form-control' type='number' name='diasvac[]' id='diasVacaciones$i' style='display:none;' min='0'>  
+                             </td>
+                             <td><input class='form-control' type='number' name='incap[]'></td> 
+                             <td>
+                             <input type='radio' name='recnoct[$i]' value='si' id='recSi$i'> Sí<br>
+                              <input type='radio' name='recnoct[$i]' value='no' id='recNo$i'> No
+                              </td>
+                            <td>
+                             <input class='form-control' type='number' name='horasrec[]' id='horasRecargo$i' style='display:none;' min='0'>
+                             </td>
+                             <td>
+                                <input type='radio' name='dominical[$i]' value='si' id='domSi$i'> Sí<br>
+                              <input type='radio' name='dominical[$i]' value='no' id='domNo$i'> No
+                               </td>
+                                 <td>
+                                 <input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'>
+                                    </td>
+
+
+
+   
+                            
+
                         </tr>";
                             }
                             ?>
@@ -75,8 +163,7 @@
                 </form>
 
                 <br />
-                <!--<a class="btn btn-primary" href="pdf.php"><i class="fa fa-download"></i> Descargar archivo PDF</a>
--->
+
             </div>
         </div>
     </div>
