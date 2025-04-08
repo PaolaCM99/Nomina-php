@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nomina 2</title>
-    <link rel="shortcut icon" href="https://www.jose-aguilar.com/blog/wp-content/themes/jaconsulting/favicon.ico" />
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -50,6 +49,7 @@
                     <table class="table table-success table-striped">
                         <thead>
                             <tr bgcolor="#CCCCCC">
+                                <th>N.</th>
                                 <th>Nombre</th>
                                 <th>Centro de costos</th>
                                 <th>Cargo</th>
@@ -109,6 +109,7 @@
 
 
                                 echo "<tr bgcolor='#FF9933'>
+                                <td>$i</td>
                                     <td><input class='form-control' type='text' name='nomb[]' value='{$nom[$i]}' readonly></td>
                                     <td>
                                         <select class='form-control' name='centro[]'>
