@@ -68,21 +68,33 @@
 
         <div class="row">
             <div id="content" class="col-lg-12">
+                <form action='./index.php' method='post'>
+                    <table class="table">
+                         <tr>
+                            <td style="text-align: left; font-size: 1.25rem;"> ¿Cuantos empleados desea capturar?</td>   
+                            <td><input type='number' name='n1' class='form-control' max="30" min="1" style="width: 100%;"></td> 
+                            <td><input type='submit' value='Crear' name='env' class="btn btn-info" style="width: 100%;"></td>
+                            <td><input type='reset' value='Borrar' class="btn btn-danger" style="width: 100%;"></td> 
+                        </tr> 
+                    </table>
+                </form>
+                <hr />
+                
                 <form action="./rep.php" method='get'>
-                    <table class="table table-success table-striped">
+                    <table class="table table-success table-striped table-responsive">
                         <thead>
                             <tr bgcolor="#CCCCCC">
                                 <td>Nombre</td>
                                 <td>Centro de costos</td>
                                 <td>Cargo </td>
-                                <td>Número de identificación </td>
+                                <td>N° identificación </td>
                                 <td>Sueldo</td>
                                 <td>Dias laborados </td>
                                 <td>¿Vacaciones?</td>
                                 <td>Días de vacaciones</td>
-                                <td>Número de incapacidades ARL</td>
-                                <td>Número de incapacidades EPS</td>
-                                <td>¿Recargo nocturno ?</td>
+                                <td>N° incapacidades ARL</td>
+                                <td>N° incapacidades EPS</td>
+                                <td>¿Recargo nocturno?</td>
                                 <td>Horas </td>
                                <td>Cantidad dominicales</td>
                                
@@ -93,7 +105,9 @@
                         </thead>
                         <tbody>
                             <?php
-                            for ($i = 0; $i < 3; $i++) {
+                            if(isset($_POST['env'])){
+                            $t = $_REQUEST['n1'];
+                            for ($i = 0; $i < $t; $i++) {
                                 echo "<tr bgcolor='#FF9933'>
                             <td><input class='form-control' type='text' name='nomb[]'></td>
                             <td>
@@ -136,20 +150,26 @@
                              <input class='form-control' type='number' name='horasrec[]' id='horasRecargo$i' style='display:none;' min='0'>
                              </td>
                              <td>
-                               <input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'>
-</td>
+                                <input type='radio' name='dominical[$i]' value='si' id='domSi$i'> Sí<br>
+                              <input type='radio' name='dominical[$i]' value='no' id='domNo$i'> No
+                               </td>
+                                 <td>
+                                 <input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'>
+                                    </td>
+                                   
 
 
                         </tr>";
                             }
                             ?>
-                            <tr bgcolor="#FF9933" align="center">
-                                <td colspan="7"><input class="btn btn-primary" type='submit' value='Enviar'>
+                            
+                        </tbody>
+                    </table>
+                    <tr bgcolor="#FF9933" align="center">
+                                <td colspan="14"><input class="btn btn-primary" type='submit' value='Enviar'>
                                     <input class="btn btn-info" type='reset' value='Reset'>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
                 </form>
 
                 <br />
@@ -158,16 +178,16 @@
         </div>
     </div>
 
-    <footer class="text-light footer">
-        <div class="container"> 
-            <p>Programación web - 2025</p>
-            <span>Realizado por:</span>
-            <br>
-            <ul>
-                <li>Juliana Martinez </li>
+    <footer class="text-light bg-dark py-4 mt-5 footer">
+        <div class="container text-center">
+            <p class="mb-2">Programación Web - 2025</p>
+            <span class="d-block mb-3">Realizado por:</span>
+            <ul class="list-unstyled">
+                <li>Juliana Martinez</li>
                 <li>Paola Castro</li>
             </ul>
-        </div> 
+            <small>&copy; 2025 Todos los derechos reservados</small>
+        </div>
     </footer>
 </body>
 
