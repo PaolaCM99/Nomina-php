@@ -134,7 +134,6 @@ require_once 'dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 $dompdf = new DOMPDF();
 $dompdf->setPaper('A4', 'landscape');
-$dompdf->load_html(ob_get_clean());
 $dompdf->render();
 $pdf = $dompdf->output();
 $filename = "Nomina.pdf";

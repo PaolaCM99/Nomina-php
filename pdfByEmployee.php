@@ -38,12 +38,13 @@
 
 <table>
     <tr>
-        <th>Nombre</th>
+    <th>Nombre</th>
         <th>Centro de costos</th>
         <th>Cargo</th>
         <th>Número de identificación</th>
         <th>Sueldo</th>
         <th>Días laborados</th>
+
     </tr>
     <?php
     $nom = $_REQUEST['nomb'];
@@ -71,18 +72,22 @@
 
 <table>
     <tr>
-        <th>Nombre</th>
-        <th>Centro de costos</th>
-        <th>Cargo</th>
-        <th>Número de identificación</th>
-        <th>Sueldo</th>
-        <th>Días laborados</th>
+     
+        <th>dias vacaciones</th>
+        <th>salario proporcional </th>
+        <th>subsidio de transporte </th>
+        <th>Incapacidades ARL</th>
+        <th>Pago incapcidad EPS </th>
+        <th>Recargo nocturno  </th>
+        <th>Dominicales </th>
+        <th>Auxilio alimetacion no prestacional </th>
+        <th>Total devengado </th>
     </tr>
     <?php
     for ($i = 0; $i < $tam; $i++) {
         echo "<tr>
-        <td>$nom[$i]</td>
-        <td>$centro[$i]</td>
+        <td>$diasvac[$i]</td>
+        <td>$[$i]</td>
         <td>$car[$i]</td>
         <td>$num[$i]</td>
         <td>$suel[$i]</td>
@@ -134,7 +139,6 @@ require_once 'dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 $dompdf = new DOMPDF();
 $dompdf->setPaper('A4', 'landscape');
-$dompdf->load_html(ob_get_clean());
 $dompdf->render();
 $pdf = $dompdf->output();
 $filename = "Nomina.pdf";

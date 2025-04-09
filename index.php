@@ -46,12 +46,14 @@
             });
         });
     }
+   
 
     window.onload = () => {
         for (let i = 0; i < 3; i++) {
             toggleVacaciones(i);
             toggleRecargo(i);
             toggleDominical(i);
+          
         }
     }
 </script>
@@ -96,7 +98,9 @@
                                 <td>N° incapacidades EPS</td>
                                 <td>¿Recargo nocturno?</td>
                                 <td>Horas </td>
+                                <th>Dominical</td>
                                <td>Cantidad dominicales</td>
+                             
                                
                               
                                 
@@ -156,11 +160,16 @@
                                  <td>
                                  <input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'>
                                     </td>
+                        <td>
+</td>
+
+
                                    
 
 
                         </tr>";
                             }
+                        }
                             ?>
                             
                         </tbody>

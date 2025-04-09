@@ -154,9 +154,9 @@
                                     <td><input class='form-control' name='salvac[]' value='{$vacdis}' readonly></td>
                                     <td><input class='form-control' name='subsidio[]' value='" . $subsidio . "' readonly></td>
                                     <td><input class='form-control' name='incaparl[]' value='" . number_format($arl_incapacidades, 0, '', '') . "' readonly></td>
-                                    <td><input class='form-control' type='number' step='0.1' name='inceps[]' value='{$diasIncapacidadEPS}'></td>
+                                    <td><input class='form-control' type='number' step='0.1' name='inceps[]' value='{$diasIncapacidadEPS}' readonly></td>
                                     <td><input class='form-control' name='valinceps[]' value='" . number_format($valorIncapacidadEPS, 0, '', '') . "' readonly></td>
-                                    <td> <input class='form-control' name='recnoct[]' value='" . number_format($valor_recargo_nocturno, 2) . "' readonly></td>
+                                    <td> <input class='form-control' name='recnoct[]' value='" . number_format($valor_recargo_nocturno, 0, '', '') . "' readonly></td>
                                     <td><input class='form-control' type='number' name='valor_dominical[]' value='" . number_format($valor_dominical, 0, '', '') . "' readonly></td>
                                     <td><input class='form-control' type='text' name='auxalimentacion[]' value='" . number_format($aux_alimentacion_no_prestacional, 0, '', '') . "' readonly></td>
                                     <td><input class='form-control' type='text' name='devengado[]' value='" . number_format($devengado_total, 0, '', '') . "' readonly>
@@ -197,7 +197,7 @@
                                 $fsp = 0;                    // Fondo de Solidaridad Pensional
                             
                                 // SMLMV para 2025
-                                $smlmv = 1300000;
+                                $smlmv = 1430000;
                                 $limiteFSP = 4 * $smlmv;
                             
                                 if ($salario >= $limiteFSP) {
