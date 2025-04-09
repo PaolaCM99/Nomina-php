@@ -84,8 +84,7 @@
                                 <td>Número de incapacidades EPS</td>
                                 <td>¿Recargo nocturno ?</td>
                                 <td>Horas </td>
-                                <td>¿Dominicales ?</td>
-                                <td>Dias </td>
+                               <td>Cantidad dominicales</td>
                                
                               
                                 
@@ -137,13 +136,8 @@
                              <input class='form-control' type='number' name='horasrec[]' id='horasRecargo$i' style='display:none;' min='0'>
                              </td>
                              <td>
-                                <input type='radio' name='dominical[$i]' value='si' id='domSi$i'> Sí<br>
-                              <input type='radio' name='dominical[$i]' value='no' id='domNo$i'> No
-                               </td>
-                                 <td>
-                                 <input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'>
-                                    </td>
-                                   
+                               <input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'>
+</td>
 
 
                         </tr>";
