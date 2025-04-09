@@ -27,12 +27,6 @@
             });
         }
 
-        window.onload = () => {
-            for (let i = 0; i < 3; i++) {
-                toggleVacaciones(i);
-            }
-        }
-
     function toggleRecargo(index) {
         const radios = document.getElementsByName(`recnoct[${index}]`);
         const horasInput = document.getElementById(`horasRecargo${index}`);
@@ -87,10 +81,12 @@
                                 <td>¿Vacaciones?</td>
                                 <td>Días de vacaciones</td>
                                 <td>Número de incapacidades ARL</td>
+                                <td>Número de incapacidades EPS</td>
                                 <td>¿Recargo nocturno ?</td>
                                 <td>Horas </td>
-                                <td>¿Dominicales  ?</td>
+                                <td>¿Dominicales ?</td>
                                 <td>Dias </td>
+                               
                               
                                 
                                 
@@ -131,7 +127,9 @@
                                     <input class='form-control' type='number' name='diasvac[]' id='diasVacaciones$i' style='display:none;' min='0'>  
                              </td>
                              <td><input class='form-control' type='number' name='incap[]'></td> 
+                              <td><input class='form-control' type='number' name='inceps[]'></td>
                              <td>
+                             
                              <input type='radio' name='recnoct[$i]' value='si' id='recSi$i'> Sí<br>
                               <input type='radio' name='recnoct[$i]' value='no' id='recNo$i'> No
                               </td>
@@ -145,11 +143,8 @@
                                  <td>
                                  <input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'>
                                     </td>
+                                   
 
-
-
-   
-                            
 
                         </tr>";
                             }
@@ -175,7 +170,7 @@
             <span>Realizado por:</span>
             <br>
             <ul>
-                <li>Juliana</li>
+                <li>Juliana Martinez </li>
                 <li>Paola Castro</li>
             </ul>
         </div> 

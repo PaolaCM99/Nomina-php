@@ -33,15 +33,11 @@
                 $diaslab = $_REQUEST['diaslab'];
                 $vacaciones = isset($_GET['vacaciones']) ? $_GET['vacaciones'] : [];
                 $diasvac = isset($_GET['diasvac']) ? $_GET['diasvac'] : [];
-                $incap = isset($_GET['incap']) ? $_GET['incap'] : [];// tengo dudas con este 
+                $incap = isset($_GET['incap']) ? $_GET['incap'] : [];
                 $recnoct = isset($_REQUEST['recnoct']) ? $_REQUEST['recnoct'] : []; 
                 $horasRec = isset($_REQUEST['horasrec']) ? $_REQUEST['horasrec'] : [];
-                $dominicales = isset($_REQUEST['dominicales']) ? $_REQUEST['dominicales'] : [];
-
-
-
-                
-
+                $dominicales = isset($_REQUEST['cantdom']) ? $_REQUEST['cantdom'] : [];
+                $incap_eps = isset($_REQUEST['inceps']) ? $_REQUEST['inceps'] : [];
                 $tam = count($nom);
                 ?>
 
@@ -61,12 +57,13 @@
                                 <th>Días de vacaciones</th>
                                 <th>Salario Proporcional</th>
                                 <th>Subsidio de transporte</th>
-                                <th>incapacidades arl </th>
+                                <th>incapacidades arl</th>
+                                <th>Días Incapacidad EPS</th>
+                                <th>Pago Incapacidad EPS</th>
                                 <th>Recargo Nocturno</th>
-                                <th>Dominicales</th>
-                                <th>Aux. Alimentación No Prestacional</th>
-
-
+                                <th>Dominicales </th>
+                                <th>Aux. Alimentación No Prestacional </th>
+                                <th>Devengado Total</th>
 
                             </tr>
                         </thead>
@@ -75,10 +72,9 @@
                             $subsidio_transporte_mensual = 200000;
 
                             for ($i = 0; $i < $tam; $i++) {
+                                $diasIncapacidadEPS = isset($incap_eps[$i]) ? (float)$incap_eps[$i] : 0;
                                 $spdl = ((float)$suel[$i] / 30) * (float)$diaslab[$i];
                                 
-
-                               
                                 $esta_de_vacaciones = (!empty($vacaciones) && isset($vacaciones[$i]) && $vacaciones[$i] === 'si');
                                 $dias_vacaciones = (isset($diasvac[$i]) && is_numeric($diasvac[$i])) ? (float)$diasvac[$i] : 0;
 
@@ -96,15 +92,35 @@
                               $incap_valor = isset($_REQUEST['incap'][$i]) ? (float)$_REQUEST['incap'][$i] : 0;
                               $arl_incapacidades = ((float)$suel[$i] / 30) * $incap_valor;
                                }
+                               $valorIncapacidadEPS = 0;
+                               if ($diasIncapacidadEPS > 0) {
+                             $sueldoDiario = $suel[$i] / 30;
+                              $valorIncapacidadEPS = round($sueldoDiario * 0.6667 * $diasIncapacidadEPS);
+}
+                        
                                $valor_hora = ((float)$suel[$i] / 30) / 8;
                               $horas_recargo = isset($horasRec[$i]) ? (float)$horasRec[$i] : 0;
                              $valor_recargo_nocturno = $valor_hora * $horas_recargo * 1.35;
-                              $domingos_trabajados = isset($dominicales[$i]) ? (int)$dominicales[$i] : 0;
-                             $valor_dominical = ((float)$suel[$i] / 30)* 1.75 * $domingos_trabajados;
+                           
+                             $valor_dia = (float)$suel[$i] / 30;
+                                $domingos_trabajados = isset($dominicales[$i]) ? (float)$dominicales[$i] : 0;
+                                $valor_dominical = $valor_dia * $domingos_trabajados * 1.75;
+
                              $aux_alimentacion_no_prestacional = 0;
-                             if ((float)$suel[$i]  >= 2600000) { 
-                            $aux_alimentacion_no_prestacional = 10000 * (int)$diaslab[$i];
+                            if ((float)$suel[$i] > 0 && (float)$suel[$i] >= 2600000) {
+                         $aux_propuesto = 7000 * (int)$diaslab[$i];
+                         $limite_aux = 0.3 * (float)$suel[$i]; 
+
+                        if ($aux_propuesto <= $limite_aux) {
+                     $aux_alimentacion_no_prestacional = $aux_propuesto;
+                    } else {
+                      $aux_alimentacion_no_prestacional = $limite_aux;
+    }
+    $devengado_total = $spdl + $vacdis + $subsidio + $arl_incapacidades + $valorIncapacidadEPS + $valor_recargo_nocturno + $valor_dominical + $aux_alimentacion_no_prestacional;
+
 }
+
+
 
 
 
@@ -140,8 +156,12 @@
                                     <td><input class='form-control' name='salvac[]' value='{$vacdis}' readonly></td>
                                     <td><input class='form-control' name='subsidio[]' value='" . $subsidio . "' readonly></td>
                                     <td><input class='form-control' name='incaparl[]' value='" . number_format($arl_incapacidades, 0, '', '') . "' readonly></td>
+                                    <td><input class='form-control' type='number' step='0.1' name='inceps[]' value='{$diasIncapacidadEPS}'></td>
+                                    <td><input class='form-control' name='valinceps[]' value='" . number_format($valorIncapacidadEPS, 0, '', '') . "' readonly></td>
                                     <td> <input class='form-control' name='recnoct[]' value='" . number_format($valor_recargo_nocturno, 2) . "' readonly></td>
-                                    <td><input class='form-control' type='text' name='dominicales[]' value='" . number_format($valor_dominical, 2) . "' readonly></td>
+                                    <td><input class='form-control' type='number' name='valor_dominical[]' value='" . number_format($valor_dominical, 0, '', '') . "' readonly></td>
+                                    <td><input class='form-control' type='text' name='auxalimentacion[]' value='" . number_format($aux_alimentacion_no_prestacional, 0, '', '') . "' readonly></td>
+                                    <td><input class='form-control' type='text' name='devengado[]' value='" . number_format($devengado_total, 0, '', '') . "' readonly>
 
                                     </tr>";
                             }
@@ -164,8 +184,9 @@
             <p class="mb-1">Programación web - 2025</p>
             <p>Realizado por:</p>
             <ul>
-                <li>Juliana</li>
+                <li>Juliana Martinez </li>
                 <li>Paola Castro</li>
+                <li> 
             </ul>
         </div>
     </footer>
