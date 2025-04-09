@@ -41,3 +41,17 @@ body {
     background-color: #343a40
 }
 
+table th{
+  width: max-content;
+  text-align: center;
+  vertical-align: middle;
+  font-size: .8rem;
+}
+table td, .form-control {
+  width: max-content;
+  text-align: center;
+  vertical-align: middle;
+  font-size: .7rem;
+  height: 2.5rem;
+}
+

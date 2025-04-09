@@ -71,8 +71,8 @@
                 <form action='./index.php' method='post'>
                     <table class="table">
                          <tr>
-                            <td> ¿Cuantos empleados desea capturar?</td>   
-                            <td><input type='number' name='n1' class='form-control' max="30" min="1"></td> 
+                            <td style="text-align: left; font-size: 1.25rem;"> ¿Cuantos empleados desea capturar?</td>   
+                            <td><input type='number' name='n1' class='form-control' max="30" min="1" style="width: 100%;"></td> 
                             <td><input type='submit' value='Crear' name='env' class="btn btn-info" style="width: 100%;"></td>
                             <td><input type='reset' value='Borrar' class="btn btn-danger" style="width: 100%;"></td> 
                         </tr> 
@@ -87,17 +87,21 @@
                                 <td>Nombre</td>
                                 <td>Centro de costos</td>
                                 <td>Cargo </td>
-                                <td>Número de identificación </td>
+                                <td>N° identificación </td>
                                 <td>Sueldo</td>
                                 <td>Dias laborados </td>
                                 <td>¿Vacaciones?</td>
                                 <td>Días de vacaciones</td>
-                                <td>Número de incapacidades ARL</td>
-                                <td>Número de incapacidades EPS</td>
-                                <td>¿Recargo nocturno ?</td>
+                                <td>N° incapacidades ARL</td>
+                                <td>N° incapacidades EPS</td>
+                                <td>¿Recargo nocturno?</td>
                                 <td>Horas </td>
-                                <td>¿Dominicales ?</td>
+                                <td>¿Dominicales?</td>
                                 <td>Dias </td> 
+                                <td>¿Prestamos?</td> 
+                                <td>Valor prestamo</td> 
+                                <td>Cuotas</td> 
+                                <td>Fecha desembolso</td> 
                             </tr>
                         </thead>
                         <tbody>
@@ -133,35 +137,37 @@
                                 <input type='radio' name='vacaciones[$i]' value='si'> Sí<br>
                                 <input type='radio' name='vacaciones[$i]' value='no'> No
                             </td>
-                            <td>
-                                <input class='form-control' type='number' name='diasvac[]' id='diasVacaciones$i' style='display:none;' min='0'>  
-                            </td>
+                            <td><input class='form-control' type='number' name='diasvac[]' id='diasVacaciones$i' style='display:none;' min='0'> </td>
                             <td><input class='form-control' type='number' name='incap[]'></td> 
                             <td><input class='form-control' type='number' name='inceps[]'></td>
                             <td>
                                 <input type='radio' name='recnoct[$i]' value='si' id='recSi$i'> Sí<br>
                                 <input type='radio' name='recnoct[$i]' value='no' id='recNo$i'> No
                             </td>
-                            <td>
-                                <input class='form-control' type='number' name='horasrec[]' id='horasRecargo$i' style='display:none;' min='0'>
-                            </td>
+                            <td><input class='form-control' type='number' name='horasrec[]' id='horasRecargo$i' style='display:none;' min='0'></td>
                             <td>
                                 <input type='radio' name='dominical[$i]' value='si' id='domSi$i'> Sí<br>
                                 <input type='radio' name='dominical[$i]' value='no' id='domNo$i'> No
                             </td>
+                            <td><input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'></td>
                             <td>
-                                <input class='form-control' type='number' name='cantdom[]' id='cantDominical$i' style='display:none;' min='0'>
+                                <input type='radio' name='prestamo[$i]' value='si'> Sí<br>
+                                <input type='radio' name='prestamo[$i]' value='no'> No
                             </td>
-                        </tr>";
+                            <td><input class='form-control' type='number' name='valprest[]'></td>
+                            <td><input class='form-control' type='number' name='cuotaprest[]'></td>
+                            <td><input class='form-control' type='date' name='fechaprest[]'></td>
+                            </tr>";
                             }}
                             ?>
-                            <tr bgcolor="#FF9933" align="center">
+                            
+                        </tbody>
+                    </table>
+                    <tr bgcolor="#FF9933" align="center">
                                 <td colspan="14"><input class="btn btn-primary" type='submit' value='Enviar'>
                                     <input class="btn btn-info" type='reset' value='Reset'>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
                 </form>
 
                 <br />
