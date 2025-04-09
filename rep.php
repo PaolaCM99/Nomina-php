@@ -18,7 +18,7 @@
         <h3 class="text-light">Nomina</h3>
     </nav>
 
-    <div class="container" style="margin-top: 80px;">
+    <div class="container">
         <h1>Nomina</h1>
         <h2 class="lead">Genera un archivo PDF con los datos de nomina de los empleados</h2>
 
@@ -42,6 +42,9 @@
                 ?>
 
                 <form action="./pdf.php" method='post'>
+                    <div class="text-right py-3" >
+                        <input class="btn btn-primary" type='submit' value='Generar PDF' style='width: 200px;'>
+                    </div>
                     <table class="table table-success table-striped table-responsive">
                         <thead>
                             <tr bgcolor="#CCCCCC">
@@ -160,12 +163,6 @@
                                     </tr>";
                             }
                             ?>
-                            <tr bgcolor="#FF9933" align="center">
-                                <td colspan="11">
-                                    <input class="btn btn-primary" type='submit' value='Generar PDF'>
-                                    <input class="btn btn-info" type='reset' value='Reset'>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
 
@@ -254,12 +251,6 @@
                             </tr>
                              ";}
                             ?>
-                            <tr bgcolor="#FF99" align="center">
-                                <td colspan="13">
-                                    <input class="btn btn-primary" type='submit' value='Generar PDF'>
-                                    <input class="btn btn-info" type='reset' value='Reset'>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </form>
@@ -267,14 +258,15 @@
         </div>
     </div>
 
-    <footer class="footer bg-dark text-light py-3 mt-4">
-        <div class="container">
-            <p class="mb-1">Programación web - 2025</p>
-            <p>Realizado por:</p>
-            <ul>
-                <li>Juliana Martinez </li>
+    <footer class="text-light bg-dark py-4 mt-5 footer">
+        <div class="container text-center">
+            <p class="mb-2">Programación Web - 2025</p>
+            <span class="d-block mb-3">Realizado por:</span>
+            <ul class="list-unstyled">
+                <li>Juliana Martinez</li>
                 <li>Paola Castro</li>
             </ul>
+            <small>&copy; 2025 Todos los derechos reservados</small>
         </div>
     </footer>
 </body>

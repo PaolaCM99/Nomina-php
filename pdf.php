@@ -1,16 +1,49 @@
-<?php ob_start();
-?>
-<h2>DATOS PERSONALES</h2>
+<?php ob_start(); ?>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        font-size: 10px;
+    }
+    h2 {
+        color: #333;
+        text-align: center;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    table, th, td {
+        border: 1px solid #CCCCCC;
+    }
+    th, td {
+        font-size: 10px;
+        padding: 3px;
+        text-align: center;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+    tr:first-child {
+        background-color: #CCCCCC;
+        font-weight: bold;
+    }
+</style>
 
-<table width="80vw" border="1">
-    <tr bgcolor="#CCCCCC">
-        <td>Nombre</td>
-        <td>Centro de costos</td>
-        <td>Cargo </td>
-        <td>Número de identificación </td>
-        <td>Sueldo</td>
-        <td>Dias laborados </td>
-        <td>Salario según dias laborados </td>
+<h2>INFORMACIÓN GENERAL</h2>
+
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Centro de costos</th>
+        <th>Cargo</th>
+        <th>Número de identificación</th>
+        <th>Sueldo</th>
+        <th>Días laborados</th>
     </tr>
     <?php
     $nom = $_REQUEST['nomb'];
@@ -22,7 +55,7 @@
 
     $tam = count($nom);
     for ($i = 0; $i < $tam; $i++) {
-        echo "<tr bgcolor='#CCCCCC'>
+        echo "<tr>
         <td>$nom[$i]</td>
         <td>$centro[$i]</td>
         <td>$car[$i]</td>
@@ -32,17 +65,79 @@
     </tr>";
     }
     ?>
+</table>
 
+<h2>DEVENGADOS</h2>
+
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Centro de costos</th>
+        <th>Cargo</th>
+        <th>Número de identificación</th>
+        <th>Sueldo</th>
+        <th>Días laborados</th>
+    </tr>
+    <?php
+    for ($i = 0; $i < $tam; $i++) {
+        echo "<tr>
+        <td>$nom[$i]</td>
+        <td>$centro[$i]</td>
+        <td>$car[$i]</td>
+        <td>$num[$i]</td>
+        <td>$suel[$i]</td>
+        <td>$diaslab[$i]</td>
+    </tr>";
+    }
+    ?>
+</table>
+
+<h2>DEDUCCIONES</h2>
+
+<table>
+    <tr>
+        <th>Salud</th>
+        <th>Pensión</th>
+        <th>Fondo de solidaridad</th>
+        <th>Monto del Desembolso</th>
+        <th>No. De Cuotas a Descontar</th>
+        <th>Fecha del Desembolso</th>
+        <th>No. De Cuota Pagada</th>
+        <th>Cuotas por Descontar</th>
+        <th>Nomina en que termina Prestamo</th>
+        <th>Valor Cuota</th>
+        <th>Saldo al Prestamo</th>
+        <th>Total deducciones</th>
+    </tr>
+    <?php
+    for ($i = 0; $i < $tam; $i++) {
+        echo "<tr>
+        <td>$nom[$i]</td>
+        <td>$centro[$i]</td>
+        <td>$car[$i]</td>
+        <td>$num[$i]</td>
+        <td>$suel[$i]</td>
+        <td>$diaslab[$i]</td>
+        <td>$nom[$i]</td>
+        <td>$centro[$i]</td>
+        <td>$car[$i]</td>
+        <td>$num[$i]</td>
+        <td>$suel[$i]</td>
+        <td>$diaslab[$i]</td>
+    </tr>";
+    }
+    ?>
 </table>
 
 <?php
 require_once 'dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 $dompdf = new DOMPDF();
+$dompdf->setPaper('A4', 'landscape');
 $dompdf->load_html(ob_get_clean());
 $dompdf->render();
 $pdf = $dompdf->output();
-$filename = "nomina.pdf";
+$filename = "Nomina.pdf";
 file_put_contents($filename, $pdf);
 $dompdf->stream($filename);
 ?>
