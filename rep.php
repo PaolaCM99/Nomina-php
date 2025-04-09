@@ -42,7 +42,7 @@
                 ?>
 
                 <form action="./pdf.php" method='post'>
-                    <table class="table table-success table-striped">
+                    <table class="table table-success table-striped table-responsive">
                         <thead>
                             <tr bgcolor="#CCCCCC">
                                 <th>N.</th>
@@ -64,7 +64,6 @@
                                 <th>Dominicales </th>
                                 <th>Aux. Alimentación No Prestacional </th>
                                 <th>Devengado Total</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -120,10 +119,6 @@
 
 }
 
-
-
-
-
                                 echo "<tr bgcolor='#FF9933'>
                                 <td>$i</td>
                                     <td><input class='form-control' type='text' name='nomb[]' value='{$nom[$i]}' readonly></td>
@@ -162,12 +157,105 @@
                                     <td><input class='form-control' type='number' name='valor_dominical[]' value='" . number_format($valor_dominical, 0, '', '') . "' readonly></td>
                                     <td><input class='form-control' type='text' name='auxalimentacion[]' value='" . number_format($aux_alimentacion_no_prestacional, 0, '', '') . "' readonly></td>
                                     <td><input class='form-control' type='text' name='devengado[]' value='" . number_format($devengado_total, 0, '', '') . "' readonly>
-
                                     </tr>";
                             }
                             ?>
                             <tr bgcolor="#FF9933" align="center">
                                 <td colspan="11">
+                                    <input class="btn btn-primary" type='submit' value='Generar PDF'>
+                                    <input class="btn btn-info" type='reset' value='Reset'>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Deducciones</h3>
+                    <table class="table table-striped table-sm table-info table-responsive">
+                        <thead bgcolor="#CCCCCC">
+                            <tr>  
+                                <tr class="table-bordered">
+                                    <th colspan="3" style="text-align: center;">Deducciones nominales</th>
+                                    <th colspan="9" style="text-align: center;">Deducciones por prestamos</th>
+                                </tr>
+                                <th>Salud</th>
+                                <th>Pensión</th>
+                                <th>Fondo de solidaridad</th>
+                                <th>Monto del Desembolso</th>
+                                <th>No. De Cuotas a Descontar</th>
+                                <th>Fecha del Desembolso</th>
+                                <th>No. De Cuota Pagada</th>
+                                <th>Cuotas por Descontar</th>
+                                <th>Nomina en que termina Prestamo</th>
+                                <th>Valor Cuota</th>
+                                <th>Saldo al Prestamo</th>
+                                <th>Total deducciones</th>
+                                <th bgcolor='#FF99'>Total a pagar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            function calcularAportes($salario) {
+                                $salud = (float)$salario * 0.04;    // 4% Salud
+                                $pension = $salario * 0.04;  // 4% Pensión
+                                $fsp = 0;                    // Fondo de Solidaridad Pensional
+                            
+                                // SMLMV para 2025
+                                $smlmv = 1300000;
+                                $limiteFSP = 4 * $smlmv;
+                            
+                                if ($salario >= $limiteFSP) {
+                                    if ($salario >= 4 * $smlmv && $salario < 16 * $smlmv) {
+                                        $fsp = $salario * 0.01; // 1%
+                                    } elseif ($salario >= 16 * $smlmv && $salario < 17 * $smlmv) {
+                                        $fsp = $salario * 0.012;
+                                    } elseif ($salario >= 17 * $smlmv && $salario < 18 * $smlmv) {
+                                        $fsp = $salario * 0.014;
+                                    } elseif ($salario >= 18 * $smlmv && $salario < 19 * $smlmv) {
+                                        $fsp = $salario * 0.016;
+                                    } elseif ($salario >= 19 * $smlmv && $salario < 20 * $smlmv) {
+                                        $fsp = $salario * 0.018;
+                                    } elseif ($salario >= 20 * $smlmv) {
+                                        $fsp = $salario * 0.02;
+                                    }
+                                }
+                            
+                                return [
+                                    'salario' => $salario,
+                                    'salud' => $salud,
+                                    'pension' => $pension,
+                                    'fsp' => $fsp,
+                                    'total_descuentos' => $salud + $pension + $fsp,
+                                    'salario_neto' => $salario - ($salud + $pension + $fsp),
+                                ];
+                            }
+
+                            for ($i = 0; $i < $tam; $i++) {
+                                $resultado = calcularAportes((float)$suel[$i]);
+                                if (!function_exists('valorConFormato')) {
+                                    function valorConFormato($resultado) {
+                                        return number_format($resultado, 0, ',', '.');
+                                    }
+                                }
+                            
+                            echo "<tr>
+                             <td style='width: auto;'>$ " . valorConFormato($resultado['salud']) . "</td>
+                             <td style='width: auto;'>$ " . valorConFormato($resultado['pension']) . "</td>
+                             <td style='width: auto;'>$ " . valorConFormato($resultado['fsp']) . "</td>
+                             <td style='width: auto;'>$ " . valorConFormato($resultado['salud']) . "</td>
+                             <td style='width: auto;'> - </td>
+                             <td style='width: auto;'> - </td>
+                             <td style='width: auto;'> - </td>
+                             <td style='width: auto;'> - </td>
+                             <td style='width: auto;'> - </td>
+                             <td style='width: auto;'>$ " . valorConFormato($resultado['salud']) . "</td>
+                             <td style='width: auto;'>$ " . valorConFormato($resultado['salud']) . "</td>
+                             <td style='width: auto;'>$ " . valorConFormato($resultado['total_descuentos']) . "</td>
+                            <td style='width: auto;' bgcolor='#FF99'>$ " . valorConFormato($resultado['salario_neto']) . "</td>
+                            </tr>
+                             ";}
+                            ?>
+                            <tr bgcolor="#FF99" align="center">
+                                <td colspan="13">
                                     <input class="btn btn-primary" type='submit' value='Generar PDF'>
                                     <input class="btn btn-info" type='reset' value='Reset'>
                                 </td>
@@ -186,7 +274,6 @@
             <ul>
                 <li>Juliana Martinez </li>
                 <li>Paola Castro</li>
-                <li> 
             </ul>
         </div>
     </footer>

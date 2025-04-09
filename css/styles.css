@@ -33,7 +33,6 @@ body {
 
 .footer {
     position: absolute;
-    bottom: 0;
     width: 100%;
     height: min-content;
     font-size: 12px;
@@ -41,3 +40,4 @@ body {
     color: #858585;
     background-color: #343a40
 }
+
